@@ -14,9 +14,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-// Route::get('/payment', function () {
-//     return view('payment');
-// })->name('payment');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
 
 Route::get('activate/{token}', [ActivationController::class, 'activate'])->name('activate');
