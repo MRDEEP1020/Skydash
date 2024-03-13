@@ -7,26 +7,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-use App\Mail\ActivationMail;
-
-use Illuminate\Contracts\Mail\Mailable;
+use App\Mail\ActivationMail; // Assuming you have an ActivationMail class
 
 class ActivationController extends Controller
 {
-    public function activate(Request $request, $token)
+    public function activate($token)
     {
         $user = User::where('activation_token', $token)->firstOrFail();
 
         // Update user activation status
-        $user->update([
+        $user->update([ // Assuming the User model has these fields
             'activation_token' => null,
             'activated_at' => now(),
         ]);
 
-        // You can customize the activation success message or redirect to a different page
-        return redirect()->route('login')->with('message', 'Your account has been activated. You can now log in.');
+        // ... success message/redirect logic
     }
-
     public function resendActivationLink(Request $request)
     {
         $user = User::where('email', $request->email)->first();

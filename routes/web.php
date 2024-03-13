@@ -19,7 +19,10 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 
-Route::get('activate/{token}', [ActivationController::class, 'activate'])->name('activate');
+// routes/web.php
+
+// Example route definition
+Route::get('/activate/{token}', [ActivationController::class, 'activate'])->name('activate');
 Route::post('resend-activation-link', [ActivationController::class, 'resendActivationLink'])->name('resendActivationLink');
 
 

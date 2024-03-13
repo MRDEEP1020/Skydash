@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\ActivationMail; // Make sure to import the ActivationMail class at the top of your file
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
+
 
 
 
@@ -31,10 +33,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
 
-            // if (!$user->active) {
-            //     Auth::logout();
-            //     return back()->withErrors(['username' => 'Your account is not active.']);
-            // }
+            if (!$user->active) {
+                Auth::logout();
+                return back()->withErrors(['username' => 'Your account is not active.']);
+            }
 
             // Authentication passed...
             return redirect()->intended('dashboard');
@@ -55,6 +57,28 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
+        function generateRandomString($length = 60)
+        {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, strlen($characters) - 1)];
+            }
+            return $randomString;
+        }
+
+
+        function generateSecureToken()
+        {
+            return Uuid::uuid4()->toString();
+        }
+
+        function generateBase64Token($data)
+        {
+            return base64_encode(openssl_random_pseudo_bytes(30));
+        }
+
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
@@ -67,7 +91,16 @@ class AuthController extends Controller
         ]);
 
         // Generate a unique activation token
-        $token = Str::random(60);
+        // $token = Str::random(60);
+
+        // Option 1: Custom random string
+        $token = generateRandomString();
+
+        // Option 2: Secure random UUID
+        // $token = generateSecureToken();
+
+        // Option 3: Base64 encoded random bytes
+        // $token = generateBase64Token();
 
         $user = User::create([
             'name' => $request->name,
@@ -117,6 +150,4 @@ class AuthController extends Controller
     {
         return view('payment');
     }
-
-    
 }
