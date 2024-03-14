@@ -36,10 +36,10 @@ class FlightSearchController extends Controller
     public function selectFlight($destination)
     {
         $flights = Flight::where('arrival_airport', $destination)->get(); // Assuming 'destination' is a column in your flights table
-    
+
         // Optional filtering based on additional criteria (e.g., departure date, price range)
         // $flights = $flights->where('departure_date', '>=', Carbon::today());  // Filter flights departing today or later
-    
+
         if ($flights->isEmpty()) {
             // Handle no flights found scenario (e.g., display message, redirect)
             return view('no-flights-found'); // Hypothetical view
@@ -47,7 +47,7 @@ class FlightSearchController extends Controller
             return view('search-result', ['flights' => $flights]);
         }
     }
-    
+
 
 
 
@@ -57,11 +57,15 @@ class FlightSearchController extends Controller
         $flight = Flight::find($id);
 
         // Store the selected flight in the session
-        $request->session()->put('selected_flight', $flight);
+        // Store booking details in session (assuming sufficient data)
+        session()->put('bookingDetails', [
+            'flight_id' => $flight->id,
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
 
-        return redirect()->route('booking');
+        return redirect()->route('receipt')->with('success', 'Flight booked successfully!');
     }
-
     // public function confirmBooking(Request $request)
     // {
     //     // Validate the booking form data

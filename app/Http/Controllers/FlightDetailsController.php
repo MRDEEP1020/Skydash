@@ -13,7 +13,7 @@ class FlightDetailsController extends Controller
     {
         $flight = Flight::find($id);
         if (!$flight) {
-            return redirect()->back()->with('error', 'Flight not found.');
+            return redirect()->with('error', 'Flight not found.');
         }
 
         return view('flight-details', ['flight' => $flight]);
@@ -24,7 +24,7 @@ class FlightDetailsController extends Controller
         // Logic to handle the booking process
         // This could include validating the form, creating a new booking record, etc.
 
-        return redirect()->back()->with('message', 'Flight booked successfully.');
+        return redirect()->with('message', 'Flight booked successfully.');
     }
 
     public function saveDetailsAndRedirect(Request $request, $id)
@@ -34,19 +34,31 @@ class FlightDetailsController extends Controller
 
         if (!$flight) {
             // Flight not found, handle the error
-            return redirect()->back()->with('error', 'Flight not found.');
+            return redirect()->with('error', 'Flight not found.');
         }
 
-
-        // Save the personal details to the session
-        session([
-            'personalDetails' => [
-                'firstName' => $request->firstName,
-                'lastName' => $request->lastName,
-                'contact' => $request->contact,
-                'email' => $request->email,
-            ]
+        $this->validate($request, [
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            // 'contact' => 'required|string|unique:users', // Adjust validation rules as needed
+            'email' => 'email|unique:users', // Adjust validation rules as needed
         ]);
+
+        // Access submitted data
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $contact = $request->contact;
+        $email = $request->email;
+
+        // Store in the session
+        $request->session()->put('personalDetails', [
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'contact' => $contact,
+            'email' => $email,
+        ]);
+        // dd(session('personalDetails'));
+
 
         // dd($flight);
         // Redirect the user to the payment page
@@ -60,13 +72,13 @@ class FlightDetailsController extends Controller
         $flight = Flight::find($flight_id);
         $flightPrice = str_replace([' ', ',', 'F'], '', $request->price);
 
-    
+
         if (!$flight) {
             return response()->json(['message' => 'Flight not found'], 404);
         }
-    
+
         Stripe::setApiKey(config('services.stripe.secret'));
-    
+
         $flightPrice = $flight->price; // Assuming the flight price is stored in the 'price' column of the Flight model
         $intent = PaymentIntent::create([
             'amount' => $flightPrice,
@@ -78,7 +90,7 @@ class FlightDetailsController extends Controller
                 'order_id' => $request->order_id,
             ],
         ]);
-    
+
         if ($intent->status === 'succeeded') {
             // Payment was successful, update your database or perform other actions
             return response()->json(['message' => 'Payment successful'], 200);
@@ -86,5 +98,4 @@ class FlightDetailsController extends Controller
             return response()->json(['message' => 'Payment failed'], 400);
         }
     }
-    
 }

@@ -7,8 +7,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ActivationController;
 use App\Http\Controllers\FlightDetailsController;
 use App\Http\Controllers\BookingController;
-
-
+use App\Models\Booking;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,6 +16,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('/receipt', function () {
+    return view('receipt');
+})->name('receipt');
 
 
 // routes/web.php
@@ -41,10 +44,11 @@ Route::get('/crud', function () {
 })->name('crud');
 
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+// Route::post('/save-details-and-redirect/{id}', [BookingController::class, 'saveDetailsAndRedirect'])->name('saveDetailsAndRedirect');
 Route::post('/save-details-and-redirect/{id}', [FlightDetailsController::class,'saveDetailsAndRedirect'])->name('saveDetailsAndRedirect');
 Route::post('/process-payment', [FlightDetailsController::class, 'showPaymentPage'])->name('process-payment');
 Route::post('/book-flight', [BookingController::class, 'bookFlight'])->name('book.flight');
-Route::get('/thank-you', [BookingController::class, 'thankYou'])->name('thank-you');
+Route::post('/thank-you', [BookingController::class, 'thankYou'])->name('thank-you');
 
 // Route::get('/show-flight-details/{id}', [FlightDetailsController::class, 'showFlightDetails'])->name('showFlightDetails');
 
@@ -65,7 +69,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth.regist
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Route::post('/payment', [FlightSearchController::class, 'processPayment'])->name('payment');
+Route::post('/payment', [FlightSearchController::class, 'processPayment'])->name('payment');
 
 
 // Show registration form
@@ -81,20 +85,29 @@ Route::post('/profile/changePassword', [ProfileController::class, 'changePasswor
 Route::post('/flight/search', [FlightSearchController::class, 'search'])->name('flight.search');
 
 Route::post('/book-flight/{id}', [FlightSearchController::class, 'bookFlight'])->name('book_flight');
-Route::post('/confirm-booking/{id}', [FlightSearchController::class, 'confirmBooking'])->name('confirm_booking');
-Route::get('/booking', [FlightSearchController::class, 'booking'])->name('booking');
+// Route::post('/confirm-booking/{id}', [FlightSearchController::class, 'confirmBooking'])->name('confirm_booking');
+// Route::get('/booking', [FlightSearchController::class, 'booking'])->name('booking');
 Route::get('/search-result/{destination}', [FlightSearchController::class, 'selectFlight'])->name('search-result');
 
-Route::get('activate/{token}', 'ActivationController@activate')->name('activate');
+// Route::get('activate/{token}', 'ActivationController@activate')->name('activate');
 
 Route::get('/send-test-email', [TestController::class, 'sendTestEmail']);
 
 Route::post('/confirm-booking', [FlightSearchController::class, 'confirmBooking'])->name('confirmBooking');
 
 
-Route::get('/booking/confirmation', function () {
-    return view('flight-details');
-})->name('booking.confirmation');
+// Route::get('/booking/confirmation', function () {
+//     return view('flight-details');
+// })->name('booking.confirmation');
+
+Route::post('/book-flight', [BookingController::class, 'bookFlight'])->name('bookFlight');
+
+// Route for booking confirmation (assuming a view or controller method)
+Route::get('/booking-confirmation/{id}', function ($id) {
+    $booking = Booking::find($id);
+    // ... display booking details or redirect as needed
+})->name('booking-confirmation');
+
 
 Route::middleware([
     'auth:sanctum',

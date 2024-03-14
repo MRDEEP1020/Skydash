@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <title>Skydash</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -65,7 +65,10 @@
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="" data-bs-toggle="dropdown">
                         <img src="{{ asset('assets/img/profile-img.jpg')}}" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2"></span>
+                        @auth
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->username }}</span>
+
+                        @endauth
                     </a><!-- End Profile Image Icon -->
                     @if (Auth::check() && Auth::user())
                     <!-- Authenticated user menu items -->

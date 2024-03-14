@@ -59,25 +59,26 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Booking Receipt</h1>
-        <p>Thank you for your booking!</p>
-        <p><strong>Flight Number:</strong> {{ $flight->flight_number }}</p>
-        <p><strong>Name:</strong> {{ $name }}</p>
-        <p><strong>Email:</strong> {{ $email }}</p>
-        <p><strong>Date:</strong> {{ now()->format('Y-m-d H:i:s') }}</p>
-    </div>
-    <div class="actions">
-        <button class="print" onclick="window.print()">Print</button>
-        <button class="email" onclick="sendEmail('{{ $email }}')">Email</button>
-    </div>
+  <div class="container">
+    <h1>Booking Receipt</h1>
+    <p>Thank you for your booking!</p>
+    <p><strong>Flight Number:</strong> {{ $flight->flight_number }}</p>
+    <p><strong>Name:</strong> {{ $firstName }}</p>
+    <p><strong>Email:</strong> {{ $email }}</p>
+    <p><strong>Date:</strong> {{ now()->format('Y-m-d H:i:s') }}</p>
+  </div>
+  <div class="actions">
+    <button class="print" onclick="window.print()">Print</button>
+    <button class="email" onclick="sendEmail('{{ $email }}')">Email</button>
+  </div>
 
-    <script>
-        function sendEmail(email) {
-            // You can implement the logic to send an email here
-            alert(`Email sent to ${email}`);
-        }
-    </script>
+  <script>
+    function sendEmail(email) {
+      // You can implement the logic to send an email here
+      alert(`Email sent to ${email}`);
+    }
+  </script>
 </body>
+
 
 </html>

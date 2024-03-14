@@ -33,10 +33,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
 
-            if (!$user->active) {
-                Auth::logout();
-                return back()->withErrors(['username' => 'Your account is not active.']);
-            }
+            // if (!$user->active) {
+            //     Auth::logout();
+            //     return back()->withErrors(['username' => 'Your account is not active.']);
+            // }
 
             // Authentication passed...
             return redirect()->intended('dashboard');

@@ -6,7 +6,15 @@
     <!-- Display flight options here -->
     <form action="{{ route('saveDetailsAndRedirect', ['id' => $flight->id] ) }}" method="POST">
         @csrf
-
+        @if ($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div class="container-ws">
             <div class="row g-5">
                 <div style="display: inline-flex;">
@@ -107,7 +115,7 @@
                         <div class="row row-col-2" style="margin-right: 400px;">
                             <div class="col-sm-6">
                                 <label for="firstName" class="form-label">First name</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="Moustapha" value="{{ session('personalDetails.firstName') }}" style="width: 300px;" required>
+                                <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Moustapha" value="{{ session('personalDetails.firstName') }}" style="width: 300px;" required>
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -115,7 +123,7 @@
 
                             <div class="col-sm-6">
                                 <label for="lastName" class="form-label">Last name</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="Kolbassia" value="{{ session('personalDetails.lastName') }}" style="width: 300px; margin-right: 357px;" required>
+                                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Kolbassia" value="{{ session('personalDetails.lastName') }}" style="width: 300px; margin-right: 357px;" required>
                                 <div class="invalid-feedback">
                                     Valid last name is required.
                                 </div>
@@ -123,7 +131,7 @@
 
                             <div class="col-sm-6">
                                 <label for="contact" class="form-label">Contact</label>
-                                <input type="tel" class="form-control" id="username" placeholder="+237697305245" value="{{ session('personalDetails.contact') }}" style="width: 300px;" required>
+                                <input type="tel" class="form-control" name="contact" id="username" placeholder="+237697305245" value="{{ session('personalDetails.contact') }}" style="width: 300px;" required>
                                 <div class="invalid-feedback">
                                     Your username is required.
                                 </div>
@@ -132,7 +140,7 @@
 
                             <div class="col-sm-6">
                                 <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com" value="{{ session('personalDetails.email') }}" style="width: 300px;">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="you@example.com" value="{{ session('personalDetails.email') }}" style="width: 300px;">
                                 <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
                                 </div>
@@ -168,7 +176,7 @@
                                         <div class="accordion-body">
                                             <form id="seatForm">
                                                 <div class="seat-selection">
-                                                    @for ($i = 1; $i <= 50; $i++) <div class="seat" data-seat="{{ $i }}">{{ $i }}</div>
+                                                    @for ($i = 1; $i <= 100; $i++) <div class="seat" data-seat="{{ $i }}">{{ $i }}</div>
                                                 @endfor
                                                 <input type="hidden" name="selectedSeat" id="selectedSeat">
                                                 <button type="submit">Select Seat</button>

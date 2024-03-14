@@ -120,7 +120,7 @@
 
                                 <div class="flight-times">
                                     <div class="depart">
-                                        <span>{{ $flight->airline }}</span>
+                                        <!-- <span>{{ $flight->airline }}</span> -->
                                         <p class="flight-info">{{ date('H:i', strtotime($flight->departure_time)) }}</p>
                                         <span>{{ $flight->departure_airport }}</span>
                                     </div>
@@ -132,7 +132,7 @@
 
 
                                     <div class="arrive">
-                                        <span>{{ $flight->airline }}</span>
+                                        <!-- <span>{{ $flight->airline }}</span> -->
                                         <p class="flight-info">{{ date('H:i', strtotime($flight->arrival_time)) }}</p>
                                         <span>{{ $flight->arrival_airport }}</span>
                                     </div>
@@ -153,7 +153,7 @@
 
                                 <div class="flight-times">
                                     <div class="depart">
-                                        <span>{{ $flight->return_airline }}</span>
+                                        <!-- <span>{{ $flight->return_airline }}</span> -->
                                         <p class="flight-info">{{ date('H:i', strtotime($flight->return_departure_time)) }}</p>
                                         <span>{{ $flight->return_departure_airport }}</span>
                                     </div>
@@ -165,7 +165,7 @@
 
 
                                     <div class="arrive">
-                                        <span>{{ $flight->return_airline }}</span>
+                                        <!-- <span>{{ $flight->return_airline }}</span> -->
                                         <p class="flight-info">{{ date('H:i', strtotime($flight->return_arrival_time)) }}</p>
                                         <span>{{ $flight->return_arrival_airport }}</span>
                                     </div>
