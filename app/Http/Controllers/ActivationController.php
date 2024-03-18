@@ -15,11 +15,12 @@ class ActivationController extends Controller
     {
         $user = User::where('activation_token', $token)->firstOrFail();
 
-        // Update user activation status
-        $user->update([ // Assuming the User model has these fields
+        // Update user information only if the user is found
+        $user->update([
             'activation_token' => null,
             'activated_at' => now(),
         ]);
+
 
         // ... success message/redirect logic
     }
@@ -28,7 +29,7 @@ class ActivationController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
+            // return redirect()->with('error', 'User not found.');
         }
 
         // Generate a new activation token
@@ -43,8 +44,6 @@ class ActivationController extends Controller
         // Send the activation email
         Mail::to($user->email)->send(new ActivationMail($activationUrl));
 
-        return redirect()->back()->with('message', 'Activation link resent. Please check your email.');
+        // return redirect()->with('message', 'Activation link resent. Please check your email.');
     }
 }
-
-

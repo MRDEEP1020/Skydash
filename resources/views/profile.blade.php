@@ -109,7 +109,7 @@
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form method="POST" action="{{ route('profile.updateProfile') }}">
+                <form action="{{ route('updateProfile') }}" method="POST">
                   @csrf
 
                   <div class="row mb-3">

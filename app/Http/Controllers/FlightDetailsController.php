@@ -27,6 +27,13 @@ class FlightDetailsController extends Controller
         return redirect()->with('message', 'Flight booked successfully.');
     }
 
+    public function selectSeat(Request $request, $flightId)
+    {
+        $flight = Flight::findOrFail($flightId);
+        $availableSeats = $flight->getAvailableSeats(); // Replace with your logic to retrieve available seats
+
+        return view('booking.selectSeat', compact('flight', 'availableSeats'));
+    }
     public function saveDetailsAndRedirect(Request $request, $id)
     {
         // Retrieve the flight information based on the ID
@@ -58,6 +65,12 @@ class FlightDetailsController extends Controller
             'email' => $email,
         ]);
         // dd(session('personalDetails'));
+        $sessionData = session()->all();
+        // Check if seat selection is complete (replace with your logic)
+        if (!session()->has('seatSelected')) {
+            return redirect()->route('booking.selectSeat', $id) // Redirect to seat selection page
+                ->with('error', 'Please select a seat before continuing.');
+        }
 
 
         // dd($flight);

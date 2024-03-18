@@ -26,7 +26,7 @@ class FlightSearchController extends Controller
         $flights = Flight::where('departure_airport', $from)
             ->where('arrival_airport', $to)
             ->whereDate('departure_date', '>=', $departureDate)
-            ->whereDate('arrival_date', '<=', $arrivalDate)
+            ->whereDate('return_departure_date', '<=', $arrivalDate)
             ->get();
 
         return view('search-result', ['flights' => $flights]);

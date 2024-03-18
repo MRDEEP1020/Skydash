@@ -28,8 +28,8 @@ class FlightSeeder extends Seeder
         $flight->arrival_time = Carbon::createFromTime(rand(0, 23), rand(0, 59))->format('H:i'); // Random arrival time without seconds
         $flight->return_duration = '0h 0m';
         $flight->duration = '0h 0m';
-        $flight->return_price = '400,000 F';
-        $flight->price = '500,000 F';
+        $flight->return_price = '600,000 F';
+        $flight->price = '400,000 F';
         $flight->save();
     }
 }

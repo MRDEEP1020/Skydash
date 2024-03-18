@@ -33,22 +33,91 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
+    //     $(document).ready(function() {
+    //   $('.seat').click(function() {
+    //       $('.seat').removeClass('selected');
+    //       $(this).addClass('selected');
+    //       $('#selectedSeat').val($(this).data('seat'));
+    //   });
+
+    //   $('#seatForm').submit(function(e) {
+    //       e.preventDefault();
+    //       let selectedSeat = $('#selectedSeat').val();
+    //       console.log('Selected Seat:', selectedSeat);
+    //       // You can now submit the form or perform any other action with the selected seat
+    //   });
+    // });
+
     $(document).ready(function() {
-  $('.seat').click(function() {
-      $('.seat').removeClass('selected');
-      $(this).addClass('selected');
-      $('#selectedSeat').val($(this).data('seat'));
-  });
+      // Fetch available seats from database (replace with your actual logic)
+      var availableSeats = fetchAvailableSeats(); // Assuming this function returns an array of available seat numbers
 
-  $('#seatForm').submit(function(e) {
-      e.preventDefault();
-      let selectedSeat = $('#selectedSeat').val();
-      console.log('Selected Seat:', selectedSeat);
-      // You can now submit the form or perform any other action with the selected seat
-  });
-});
-</script>
+      // Update seat availability based on fetched data
+      updateSeatAvailability(availableSeats);
 
+      // Handle seat selection click event
+      $('.seat').click(function() {
+        var selectedSeat = $(this).data('seat');
+
+        // Check if seat is available
+        if (availableSeats.includes(selectedSeat)) {
+          // Update selected seat and enable submit button
+          $('#selectedSeat').val(selectedSeat);
+          $('#seatForm button[type="submit"]').prop('disabled', false);
+
+          // Update seat availability in UI and database (replace with your logic)
+          availableSeats.splice(availableSeats.indexOf(selectedSeat), 1);
+          updateSeatAvailability(availableSeats);
+          updateAvailableSeatsInDatabase(selectedSeat); // Assuming this function updates database
+        } else {
+          alert('This seat is already unavailable!');
+        }
+      });
+    });
+
+    function updateSeatAvailability(availableSeats) {
+      $('.seat').each(function() {
+        var seatNumber = $(this).data('seat');
+        $(this).prop('disabled', !availableSeats.includes(seatNumber));
+      });
+    }
+
+    // Implement functions to fetch and update available seats in the database (replace with your actual database interaction logic)
+    function fetchAvailableSeats() {
+      // ... your logic to fetch available seats from database ...
+      return []; // Replace with actual data retrieval
+    }
+
+    function updateAvailableSeatsInDatabase(selectedSeat) {
+      // ... your logic to update available seats in database ...
+    }
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      // Activate tooltip
+      $('[data-toggle="tooltip"]').tooltip();
+
+      // Select/Deselect checkboxes
+      var checkbox = $('table tbody input[type="checkbox"]');
+      $("#selectAll").click(function() {
+        if (this.checked) {
+          checkbox.each(function() {
+            this.checked = true;
+          });
+        } else {
+          checkbox.each(function() {
+            this.checked = false;
+          });
+        }
+      });
+      checkbox.click(function() {
+        if (!this.checked) {
+          $("#selectAll").prop("checked", false);
+        }
+      });
+    });
+  </script>
 
 
 

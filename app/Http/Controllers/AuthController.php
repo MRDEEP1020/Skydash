@@ -57,51 +57,58 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        function generateRandomString($length = 60)
-        {
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $randomString = '';
-            for ($i = 0; $i < $length; $i++) {
-                $randomString .= $characters[rand(0, strlen($characters) - 1)];
-            }
-            return $randomString;
-        }
+        // function generateRandomString($length = 60)
+        // {
+        //     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        //     $randomString = '';
+        //     for ($i = 0; $i < $length; $i++) {
+        //         $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        //     }
+        //     return $randomString;
+        // }
 
 
-        function generateSecureToken()
-        {
-            return Uuid::uuid4()->toString();
-        }
+        // function generateSecureToken()
+        // {
+        //     return Uuid::uuid4()->toString();
+        // }
 
-        function generateBase64Token($data)
-        {
-            return base64_encode(openssl_random_pseudo_bytes(30));
-        }
+        // function generateBase64Token($data)
+        // {
+        //     return base64_encode(openssl_random_pseudo_bytes(30));
+        // }
 
 
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'username' => 'required|string|unique:users',
-            'password' => 'required|string|min:6',
-
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Minimum length
+                'regex:/[a-z]/', // Lowercase letters
+                'regex:/[A-Z]/', // Uppercase letters
+                'regex:/[0-9]/', // Numbers
+                'regex:/[@$!%*#?&]/', // Special characters
+            ],
             'terms' => 'accepted',
         ], [
             'terms.accepted' => 'You must accept the terms and conditions.',
         ]);
 
         // Generate a unique activation token
-        // $token = Str::random(60);
+        $token = Str::random(60);
 
         // Option 1: Custom random string
-        $token = generateRandomString();
+        // $token = generateRandomString();
 
         // Option 2: Secure random UUID
         // $token = generateSecureToken();
 
         // Option 3: Base64 encoded random bytes
         // $token = generateBase64Token();
-
+        
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -110,6 +117,9 @@ class AuthController extends Controller
             'activation_token' => $token,
             'active' => false,
         ]);
+
+        $user->activation_token = Str::random(60);
+        $user->save();
 
         $activationUrl = URL::temporarySignedRoute('activate', now()->addHours(24), ['token' => $token]);
 

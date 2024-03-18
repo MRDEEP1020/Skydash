@@ -7,6 +7,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ActivationController;
 use App\Http\Controllers\FlightDetailsController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CrudController;
 use App\Models\Booking;
 
 Route::get('/', function () {
@@ -26,7 +27,7 @@ Route::get('/receipt', function () {
 
 // Example route definition
 Route::get('/activate/{token}', [ActivationController::class, 'activate'])->name('activate');
-Route::post('resend-activation-link', [ActivationController::class, 'resendActivationLink'])->name('resendActivationLink');
+Route::get('resend-activation-link', [ActivationController::class, 'resendActivationLink'])->name('resendActivationLink');
 
 
 Route::get('/flight/{id}', [FlightSearchController::class, 'show'])->name('flight.show');
@@ -75,12 +76,16 @@ Route::post('/payment', [FlightSearchController::class, 'processPayment'])->name
 // Show registration form
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('auth.register');
 
-Route::post('/profile/updateProfile', [ProfileController::class, 'updateProfile'])->name('profile.updateProfile');
+Route::post('/updateProfile', [ProfileController::class, 'updateProfile'])->name('updateProfile');
 
 Route::get('/search-result', function () {
     return view('search-result');
 })->name('search-result');
-Route::post('/profile/changePassword', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
+Route::post('/changePassword', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
+Route::post('/addFlight', [CrudController::class, 'addFlight'])->name('addFlight');
+Route::get('/flightList', [CrudController::class, 'flightList'])->name('flightList');
+Route::POST('/validatePromoCode', [CrudController::class, 'validatePromoCode'])->name('validatePromoCode'); 
+// Replace 'YourController' with your actual controller class name
 
 Route::post('/flight/search', [FlightSearchController::class, 'search'])->name('flight.search');
 
@@ -107,6 +112,9 @@ Route::get('/booking-confirmation/{id}', function ($id) {
     $booking = Booking::find($id);
     // ... display booking details or redirect as needed
 })->name('booking-confirmation');
+Route::post('/send-booking-receipt', [BookingController::class, '']);
+
+Route::get('/booking/{id}/selectSeat', [BookingController::class, 'selectSeat'])->name('booking.selectSeat');
 
 
 Route::middleware([

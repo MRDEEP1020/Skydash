@@ -33,6 +33,7 @@ class Flight extends Model
         'return_price',
         'activation_token',
         'active',
+        'total_price',
     ];
 
     protected static function booted()
@@ -71,6 +72,8 @@ class Flight extends Model
             $flight->return_duration = $return_duration;
         });
     }
+
+    
 
     public function bookings()
     {

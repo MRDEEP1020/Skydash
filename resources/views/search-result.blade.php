@@ -110,7 +110,7 @@
                 </div>
                 <!-- Flight cards and price cards go here -->
                 @foreach ($flights as $flight)
-                <div class="card-details" data-price="200" data-recommended="true">
+                <div class="card-details" data-price="{{ $flight->price }}" data-recommended="true">
                     <div class="flight-card">
                         <div style="margin-right: 80px; margin-top:40px;">
                             <h4 style="margin-right: 10px;">{{ $flight->airline }}</h4>

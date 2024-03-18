@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Booking Receipt</title>
-</head>
-<body>
-    <h1>Booking Receipt</h1>
-    <p>Thank you for your booking!</p>
-    <p><strong>Flight Number:</strong> {{ $flight->flight_number }}</p>
-    <p><strong>Name:</strong> {{ $name }}</p>
-    <p><strong>Email:</strong> {{ $email }}</p>
-    <p><strong>Date:</strong> {{ now()->format('Y-m-d H:i:s') }}</p>
-</body>
-</html>
+@subject Booking Receipt for your Flight
+
+Hi {{ $data['firstName'] }},
+
+Thank you for booking your flight with us!
+
+Here are your booking details:
+
+* Flight Number: {{ $data['flight_number'] }}
+* Name: {{ $data['firstName'] }} {{ $data['lastName'] }} (if available)
+* Email: {{ $data['email'] }}
+* Date: {{ $data['date'] }}
+
+We hope you have a pleasant journey!
+
+Sincerely,
+
+The [Your Company Name] Team

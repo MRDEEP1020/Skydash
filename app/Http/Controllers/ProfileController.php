@@ -27,18 +27,18 @@ public function updateProfile(Request $request)
     ]);
 
     
-    $user = auth()->user();
-    $profile = $user->profile; // Retrieve associated profile
+    // $user = auth()->user();
+    // $profile = $user->profile; // Retrieve associated profile
 
     
 
-    if ($request->has('password')) { // Update password if provided
-        $profile->password = Hash::make($request->input('password'));
-        $profile->saveOrFail(); // Replace with this line
-    }
+    // if ($request->has('password')) { // Update password if provided
+    //     $profile->password = Hash::make($request->input('password'));
+    //     $profile->saveOrFail(); // Replace with this line
+    // }
 
     // Update profile details
-    $profile= Profile::create([        
+    $request= Profile::create([        
         'company' => $request->input('company'),
         'job' => $request->input('job'),
         'country' => $request->input('country'),

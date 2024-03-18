@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('return_duration'); // return_duration time
             $table->string('price');
             $table->string('return_price');
+            $table->string('total_price');
             $table->timestamps();
         });
     }

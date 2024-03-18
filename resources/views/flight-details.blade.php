@@ -172,7 +172,7 @@
                                             Food Service
                                         </button>
                                     </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                    <!-- <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
                                             <form id="seatForm">
                                                 <div class="seat-selection">
@@ -184,7 +184,21 @@
                                         </div>
 
 
+                                    </div> -->
+
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <form id="seatForm">
+                                                <div class="seat-selection">
+                                                    @for ($i = 1; $i <= 100; $i++) <button type="submit" class="seat" data-seat="{{ $i }}"> {{ $i }} </button>
+                                                        @endfor
+                                                        <input type="hidden" name="selectedSeat" id="selectedSeat">
+                                                        <button type="submit" disabled>Select Seat</button>
+
+                                            </form>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                     </div>
@@ -210,43 +224,41 @@
                                     <h6 class="my-0">Aller</h6>
                                     <small class="text-muted">From {{ $flight->departure_airport }} to {{ $flight->arrival_airport }}</small>
                                 </div>
-                                <span class="text-muted">{{ $flight->price }}</span>
+                                <span class="text-muted">$ {{ $flight->price }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
                                     <h6 class="my-0">Return</h6>
                                     <small class="text-muted">From {{ $flight->return_departure_airport }} to {{ $flight->return_arrival_airport }}</small>
                                 </div>
-                                <span class="text-muted">{{ $flight->return_price }}</span>
+                                <span class="text-muted">$ {{ $flight->return_price }}</span>
                             </li>
-                            <!-- <li class="list-group-item d-flex justify-content-between lh-sm">
-                                <div>
-                                    <h6 class="my-0">Third item</h6>
-                                    <small class="text-muted">Brief description</small>
-                                </div>
-                                <span class="text-muted">$5</span>
-                            </li> -->
                             <li class="list-group-item d-flex justify-content-between bg-light">
+                                @if ($flight->discount > 0)
                                 <div class="text-success">
                                     <h6 class="my-0">Promo code</h6>
                                     <small>EXAMPLECODE</small>
                                 </div>
-                                <span class="text-success">−$5</span>
+                                <span class="text-success">−$ {{ $discount }}</span>
+                                @endif
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total (USD)</span>
-                                <strong>{{ $flight->return_price }} + {{ $flight->price }}</strong>
+                                <strong>$ {{ $flight->discount > 0 ? $totalPrice : $flight->total_price }}</strong>
                             </li>
+                            <br>
+                            <form class="card p-2" action="{{ route('addFlight') }}" method="post">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="promo_code" placeholder="Promo code">
+                                    <button type="submit" class="btn btn-secondary">Redeem</button>
+                                </div>
+                            </form>
                         </ul>
 
-                        <form class="card p-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Promo code">
-                                <button type="submit" class="btn btn-secondary">Redeem</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
+
             </div>
         </div>
     </form>
