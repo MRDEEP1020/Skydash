@@ -22,6 +22,10 @@ Route::get('/receipt', function () {
     return view('receipt');
 })->name('receipt');
 
+Route::get('/about-us', function () {
+    return view('about-us');
+})->name('about-us');
+
 
 // routes/web.php
 

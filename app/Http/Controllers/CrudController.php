@@ -8,18 +8,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Booking;
 use Carbon\Carbon;
-use App\Http\Controllers\Controller;
 
 class CrudController extends Controller
 {
     //
     public function flightList()
     {
-        $flights = Flight::all(); // Fetch all flights
-
-        dd($flights);
-        return view('crud', compact('flights'));
+      $flights = Flight::all(); // Fetch all flights
+      return view('crud', compact('flights')); // Pass flights to the view
     }
+    
 
     public function addFlight(Request $request)
     {

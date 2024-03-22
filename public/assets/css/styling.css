@@ -235,3 +235,12 @@
 
 /*------------------------------admin section-------------------------------*/
 
+@keyframes takeOff {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100px) rotate(10deg); }
+  }
+  
+  #flight-icon {
+    animation: takeOff 2s ease-in-out infinite;
+  }
+  
